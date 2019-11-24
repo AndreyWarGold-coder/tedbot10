@@ -1,6 +1,7 @@
 import discord 
 from discord.ext import commands
 from discord.ext.commands import Bot
+import os
 
 Bot = commands.Bot(command_prefix = "!")
 ukr = False
@@ -60,4 +61,4 @@ async def on_message(message):
 
 
 
-Bot.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XdrEkQ.kOf_giN5j0wkEFhSEBybSawGw0E")
+Bot.run(os.environ.get("Bot_Token"))
