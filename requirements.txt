@@ -2,3 +2,8 @@ discord.py
 aiohttp
 websockets
 chardet
+async-timeout
+attrs
+idna
+multidict
+yarl
