@@ -55,7 +55,8 @@ async def on_message(message):
 	if message.content == "!апгрейд":
 		l = str(message.author.roles).split("'")
 		if l[3] in rol[0]:
-			print(message.author.roles)
+			await Bot.add_role(message.author, rol[0][rol[0].index(l[3])+1])
+			
 		elif l[3] in rol[1]:
 			print(message.author.roles)
 
