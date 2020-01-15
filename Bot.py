@@ -13,7 +13,10 @@ music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
-
+@Bot.command(pass_context=True)
+async def music(ctx):
+	channel = ctx.message.author.voice.channel
+	await channel.connect()
 
 
 @Bot.event
@@ -41,13 +44,8 @@ async def on_message(message):
 		else:
 			money[0].append(message.author.name)
 			money[1].append(100)
-		await message.delete()
 		money[1][money[0].index(message.author.name)] += 1
-    if message.content.lower.startswith("казино"):
-    	mfg = message.content.lower.split(" ")
-
-
-
+		await message.delete()
 	if message.content == "hello":
 		await message.channel.send("Хеллоу енглишмэн!")
 	if message.content in music:
