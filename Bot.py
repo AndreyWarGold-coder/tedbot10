@@ -35,7 +35,7 @@ async def on_message(message):
 	if message.content == "Hello":
 		await message.channel.send("Хеллоу енглишмэн!")
 	if message.content in music:
-		ch = message.author.voice.voice_channel
+		ch = message.author.voice.channel
 		await Bot.join_voice_channel(ch)
 		for gg in range(len(music_list)):
 			await message.channel.send("-ph " + music_list[gg])
