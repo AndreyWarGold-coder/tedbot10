@@ -2,10 +2,11 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
 import os
+import random
 
 Bot = commands.Bot(command_prefix = "!")
 ukr = False
-ukrl = ["Героям слава", "Героям слава!", "Смерть ворогам"]
+ukrl = ["героям слава", "героям слава!", "смерть ворогам"]
 money = [[], []]
 music = ["music", "музыка", "включи музыку", "врубай шарманку", "шансон"]
 music_list = ["Opa gagnam style"]
@@ -25,14 +26,27 @@ async def on_message(message):
 	if message.author == Bot.user:
 		return
 	if ukr == True:
-		if message.content in ukrl :
+		if message.content.lower in ukrl :
 			await message.channel.send("Наш козак!")
 			ukr = False
 		else:
 			await message.channel.send("Москаль!")
 			ukr = False
 			return
-	if message.content == "Hello":
+	if message.content.lower == "заработать":
+		global money
+		if message.author.name in money[0]:
+			print(123)
+
+		else:
+			money[0].append(message.author.name)
+			money[1].append(100)
+		message.delete()
+		money[1][money[0].index(message.author.name)] += 1
+
+
+
+	if message.content == "hello":
 		await message.channel.send("Хеллоу енглишмэн!")
 	if message.content in music:
 		ch = message.author.voice.channel
@@ -40,12 +54,12 @@ async def on_message(message):
 		for gg in range(len(music_list)):
 			await message.channel.send("-ph " + music_list[gg])
 		await voice_client.disconnect()
-	if message.content == "Привет":
+	if message.content.lower == "привет":
 		await message.channel.send("Привет!")
-	if message.content == "Привіт":
+	if message.content.lower == "привіт":
 		await message.channel.send("Здоровенькі були! Слава Україні!")
 		ukr = True
-	if message.content == "!баланс":
+	if message.content.lower == "!баланс":
 		global money
 		if message.author.name in money[0]:
 			print(123)
@@ -54,7 +68,7 @@ async def on_message(message):
 			money[0].append(message.author.name)
 			money[1].append(100)
 		await message.channel.send("Баланс " + message.author.name + ": "+ str(money[1][money[0].index(message.author.name)]) + "$" )
-	if message.content.startswith("!передать"):
+	if message.content.lower.startswith("!передать"):
 		msg = message.content.split(" ")
 		if msg[1] in money[0]:
 			if money[1][money[0].index(message.author.name)] >= int(msg[2]):
@@ -63,7 +77,7 @@ async def on_message(message):
 				await message.channel.send("Пользователю " + msg[1] + " передано " + msg[2] + "$") 
 		else:
 			await message.channel.send("Такого пользователя в системе нету!")
-	if message.content == "!апгрейд":
+	if message.content.lower == "!апгрейд":
 		l = str(message.author.roles).split("'")
 		if l[3] in rol[0]:
 			await Bot.add_role(message.author, rol[0][rol[0].index(l[3])+1])
