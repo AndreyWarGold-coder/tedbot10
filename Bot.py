@@ -41,7 +41,7 @@ async def on_message(message):
 		else:
 			money[0].append(message.author.name)
 			money[1].append(100)
-		message.delete()
+		await message.delete()
 		money[1][money[0].index(message.author.name)] += 1
 
 
