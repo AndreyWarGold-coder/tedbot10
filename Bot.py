@@ -12,6 +12,12 @@ music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
+@Bot.command()
+async def music(ctx):
+	await ctx.author.voice.channel.connect()
+
+
+
 @Bot.event
 async def on_ready():
 	print("Bot is working...")
