@@ -22,7 +22,7 @@ async def on_ready():
 
 @Bot.event
 async def on_message(message):
-	global ukr, ukrl
+	global ukr, ukrl, money
 	if message.author == Bot.user:
 		return
 	if ukr == True:
@@ -34,7 +34,7 @@ async def on_message(message):
 			ukr = False
 			return
 	if message.content.lower == "заработать":
-		global money
+		
 		if message.author.name in money[0]:
 			print(123)
 
@@ -43,6 +43,8 @@ async def on_message(message):
 			money[1].append(100)
 		await message.delete()
 		money[1][money[0].index(message.author.name)] += 1
+    if message.content.lower.startswith("казино"):
+    	mfg = message.content.lower.split(" ")
 
 
 
@@ -60,7 +62,6 @@ async def on_message(message):
 		await message.channel.send("Здоровенькі були! Слава Україні!")
 		ukr = True
 	if message.content.lower == "!баланс":
-		global money
 		if message.author.name in money[0]:
 			print(123)
 
