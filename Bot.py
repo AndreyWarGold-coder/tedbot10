@@ -12,9 +12,6 @@ music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
-@Bot.command()
-async def music(ctx):
-	await ctx.author.voice.channel.connect()
 
 
 
@@ -38,10 +35,11 @@ async def on_message(message):
 	if message.content == "Hello":
 		await message.channel.send("Хеллоу енглишмэн!")
 	if message.content in music:
-		await message.author.voice.channel.connect()
+		ch = message.author.voice.voice_channel
+		await client.join_voice_channel(ch)
 		for gg in range(len(music_list)):
 			await message.channel.send("-ph " + music_list[gg])
-		await message.voice_client.disconnect()
+		await voice_client.disconnect()
 	if message.content == "Привет":
 		await message.channel.send("Привет!")
 	if message.content == "Привіт":
