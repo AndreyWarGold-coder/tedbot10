@@ -7,6 +7,8 @@ Bot = commands.Bot(command_prefix = "!")
 ukr = False
 ukrl = ["Героям слава", "Героям слава!", "Смерть ворогам"]
 money = [[], []]
+music = ["music", "музыка", "включи музыку", "врубай шарманку", "шансон"]
+music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
@@ -29,6 +31,12 @@ async def on_message(message):
 			return
 	if message.content == "Hello":
 		await message.channel.send("Хеллоу енглишмэн!")
+	if message.content in music:
+		ch = message.author.voice.channel
+		await ch.connect()
+		for gg in range(len(music_list)):
+			await message.channel.send("-ph " + music_list[gg])
+		await voice_client.disconnect()
 	if message.content == "Привет":
 		await message.channel.send("Привет!")
 	if message.content == "Привіт":
