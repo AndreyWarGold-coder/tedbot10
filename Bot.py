@@ -32,11 +32,10 @@ async def on_message(message):
 	if message.content == "Hello":
 		await message.channel.send("Хеллоу енглишмэн!")
 	if message.content in music:
-		ch = message.author.voice.channel
-		await ch.connect()
+		await message.author.voice.channel.connect()
 		for gg in range(len(music_list)):
 			await message.channel.send("-ph " + music_list[gg])
-		await voice_client.disconnect()
+		await message.voice_client.disconnect()
 	if message.content == "Привет":
 		await message.channel.send("Привет!")
 	if message.content == "Привіт":
