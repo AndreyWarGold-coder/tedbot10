@@ -561,5 +561,5 @@ async def on_message(message):
 
 
 
-#Bot.run(os.environ.get("Bot_Token"))
-Bot.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XiBEKg.0bz4aMfUwzQgLhpUygjx-hu38ag")
+Bot.run(os.environ.get("Bot_Token"))
+#Bot.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XiBEKg.0bz4aMfUwzQgLhpUygjx-hu38ag")
