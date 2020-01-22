@@ -37,6 +37,8 @@ async def on_ready():
 @Bot.event
 async def on_message(message):
 	global  money, music_list, jg, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
+	def privet():
+		await message.channel.send("Hello123")
 	if message.author == Bot.user:
 		if save == True:
 			save = False
@@ -532,6 +534,7 @@ async def on_message(message):
 		await message.channel.send(money[5])
 	if mgg == "привет":
 		await message.channel.send("Привет!")
+		privet()
 	if mgg == "привіт":
 		await message.channel.send("Здоровенькі були! Слава Україні!")
 	if mgg == "!баланс":
