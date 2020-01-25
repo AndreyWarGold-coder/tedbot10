@@ -29,6 +29,8 @@ music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
+def gogi(message):
+	message.channel.send("test")
 
 @Bot.event
 async def on_ready():
@@ -520,6 +522,7 @@ async def on_message(message):
 		money[1][money[0].index(message.author.name.lower())] += 1
 		await message.delete()
 	if mgg == "hello":
+		gogi(message)
 		await message.channel.send("Хеллоу енглишмэн!")
 	if mgg == "!дебаг":
 		await message.channel.send("mas Money[0]")
