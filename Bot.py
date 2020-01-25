@@ -35,9 +35,9 @@ async def on_ready():
 	print("Bot is working...")
 
 @Bot.event
-async def on_raw_reaction_add(reaction, user):
-	if reaction == '😀':
-		print("true is emoji " + user.name)
+async def on_raw_reaction_add(payload):
+	if payload.emoji == '😀':
+		print("true is emoji " + payload.user.name)
 
 @Bot.event
 async def on_message(message):
