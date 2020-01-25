@@ -30,7 +30,7 @@ rol = [["Аутист", "Бронзовый аутист", "Серебряный
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
 def gogi(message):
-	message.channel.send("test")
+	await message.channel.send("test")
 
 @Bot.event
 async def on_ready():
