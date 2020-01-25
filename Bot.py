@@ -29,7 +29,7 @@ music_list = ["Opa gagnam style"]
 rol = [["Аутист", "Бронзовый аутист", "Серебряный аутист", "Золотой аутист", "Повелитель аутистов"],
        ["Голубь", "Резиновый голубь", "Пластмасовый голубь", "Роботизированый голубь", "Голубь-терминатор"]]
 
-def gogi(message):
+async def gogi(message):
 	await message.channel.send("test")
 
 @Bot.event
