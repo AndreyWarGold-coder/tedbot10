@@ -9,7 +9,7 @@ Bot = commands.Bot(command_prefix = "!")
 ukr = False
 ukrl = ["героям слава", "героям слава!", "смерть ворогам"]
 mafia_roles = ["мафия", "врач", "путана", "мирный", "шериф"]
-money = [[], [], [], [], [], [], [], []]
+money = [[], [], [], [], [], [], [], [], []]
 mafia_gamer = []
 mafia_kill = []
 list_golos = []
@@ -804,7 +804,7 @@ async def on_message(message):
 			del mafia_role[a]
 			a=0
 			a = random.randint(0, len(list_emoji)-1)
-			money[7][money[0].index(user.name.lower())] = emoji_tt[a]
+			money[7][money[0].index(message.author.name.lower())] = emoji_tt[a]
 			del emoji_tt[a]
 			await message.channel.send("Ваша роль:  "+money[5][money[0].index(message.author.name.lower())])
 			if len(mafia_role) == 0:
@@ -853,7 +853,8 @@ async def on_message(message):
 				emb.add_field(name = "Игроки готовы:", value = "0 | " + str(len(list_gamer)))
 				emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 				save = True
-				await message.channel.send(embed = emb)
+				msg1 = await jg.send(embed = emb)
+		  		msg1.add_reaction('➕')
 			else:
 				await jg.send("Недостаточно игроков или ролей для них! Требуется, как минимум 5 игроков!")
 		if mgg == "+" and not message.author.name.lower() in list_gamer:
