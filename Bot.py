@@ -45,7 +45,7 @@ async def on_raw_reaction_add(payload):
 			mgg = mafia_gamer[g]
 	if user == Bot.user:
 		return
-	global money, music_list, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
+	#global money, music_list, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
 	if mafia_game == True:
 		if mgg in mafia_gamer and user.name.lower() in mafia_gamer and mgg !=user.name.lower() and mafia_hod == "голосование" and list_golos.count(user.name.lower()) == 0:
 			list_golos.append(user.name.lower())
