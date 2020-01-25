@@ -35,6 +35,11 @@ async def on_ready():
 	print("Bot is working...")
 
 @Bot.event
+async def on_raw_reaction_add(reaction, who):
+	if reaction == '😀':
+		print("true is emoji " + who.name)
+
+@Bot.event
 async def on_message(message):
 	global  money, music_list, jg, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
 	if message.author == Bot.user:
