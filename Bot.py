@@ -853,8 +853,7 @@ async def on_message(message):
 				emb.add_field(name = "Игроки готовы:", value = "0 | " + str(len(list_gamer)))
 				emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 				save = True
-				msg2 = await jg.send(embed = emb)
-		  		msg2.add_reaction("➕")
+				await jg.send(embed = emb)
 			else:
 				await jg.send("Недостаточно игроков или ролей для них! Требуется, как минимум 5 игроков!")
 		if mgg == "+" and not message.author.name.lower() in list_gamer:
