@@ -1,6 +1,7 @@
 import discord 
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord import utils
 import os
 import random
 
@@ -36,9 +37,8 @@ async def on_ready():
 
 @Bot.event
 async def on_raw_reaction_add(payload):
-	print(str(payload.emoji) + " true is emoji " + payload.member.name)
-	if payload.emoji == '😀':
-		print("true is emoji " + payload.member.name)
+	if str(payload.emoji) == '😀':
+		print("true is emoji " + utils.get(bot.get_all_members(), id=str(payload.user_id)).name)
 
 @Bot.event
 async def on_message(message):
