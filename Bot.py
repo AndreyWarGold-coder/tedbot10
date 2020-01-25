@@ -122,8 +122,8 @@ async def on_raw_reaction_add(payload):
 			save = True
 			msg1 = await jg.send(embed = emb)
 			await msg1.add_reaction("➕")
-				for f in range(len(mafia_gamer)):
-					await msg1.add_reaction(money[7][money[0].index(mafia_gamer[f])])
+			for f in range(len(mafia_gamer)):
+				await msg1.add_reaction(money[7][money[0].index(mafia_gamer[f])])
 			for b in range (len(mafia_kill)):
 				if mafia_kill[b] == mafia_heal:
 					mafia_kill.remove(mafia_heal)
