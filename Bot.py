@@ -38,6 +38,7 @@ async def on_ready():
 
 @Bot.event
 async def on_raw_reaction_add(payload):
+	global money, music_list, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
 	emoji = str(payload.emoji)
 	user = Bot.get_user(payload.user_id)
 	for g in range(len(mafia_gamer)):
@@ -435,7 +436,7 @@ async def on_raw_reaction_add(payload):
 
 @Bot.event
 async def on_message(message):
-	global  money, music_list, list_emoji, emoji_tt, jg, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
+	#global  money, music_list, list_emoji, emoji_tt, jg, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
 	if message.author == Bot.user:
 		if save == True:
 			save = False
