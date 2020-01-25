@@ -37,8 +37,66 @@ async def on_ready():
 
 @Bot.event
 async def on_raw_reaction_add(payload):
-	if str(payload.emoji) == '😀':
-		print("true is emoji " + Bot.get_user(payload.user_id).name)
+	emoji = str(payload.emoji)
+	user = Bot.get_user(payload.user_id)
+	global money, music_list, jg, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2
+	if mafia_start == True:
+		if emoji == "➕" and user.name.lower() in list_gamer and not user.name.lower() in mafia_gamer:
+			mafia_gamer.append(user.name.lower())
+			await jg.send(user.name + " Готов!  " + str(len(mafia_gamer)) + " | " + str(len(list_gamer)) )
+			await save_msg.delete()
+			emb = discord.Embed(title = "Все готовы?! + мне в личку, или нажмите на реакцию", color = 0xe74c3c)
+			emb.add_field(name = "Игроки готовы:", value = str(len(mafia_gamer)) + " | " + str(len(list_gamer)))
+			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
+			save = True
+			msg1 = await jg.send(embed = emb)
+			msg1.add_reaction('➕')
+			a = 0
+			a = random.randint(0, len(mafia_role)-1)
+			print(a)
+			print(len(mafia_role))
+			print(mafia_role[a])
+			money[5][money[0].index(user.name.lower())] = mafia_role[a]
+			del mafia_role[a]
+			await Bot.send_message(user, "Ваша роль:  "+money[5][money[0].index(user.name.lower())])
+			if len(mafia_role) == 0:
+				mafia_game = True
+				mafia_start = False
+				await jg.send("Игра начата!")
+				mafia_night = 1
+				await save_msg.delete()
+				emb = discord.Embed(title = str(mafia_night) + " ночь. Город засыпает..." , color = 0xe74c3c)
+				emb.add_field(name = "Живые игроки:", value = mafia_gamer)
+				emb.set_thumbnail(url="https://moika78.ru/news2/2019/02/1111-246.jpg")
+				save = True
+				await jg.send(embed = emb)
+				await jg.send("Просыпается мафия... И делает свой выбор... (напиши имя жертвы в ЛИЧКУ боту)")
+				mafia_hod = "мафия"
+				mafia_role = mafia_role2
+	if emoji == "➕" and not user.name.lower() in list_gamer and mafia == True:
+			if not user.name.lower() in money[0]:
+				money[0].append(user.name.lower())
+				money[1].append(100)   # gold
+				money[4].append("нету класса")
+				money[2].append(0)   # lvl
+				money[3].append(-1)   # Exp
+				money[5].append("role")
+				money[6].append(user) #user
+			list_gamer.append(user.name.lower())
+			if len(list_gamer) < 5:
+				await jg.send(user.name+" присоединился к игре! Для старта необходимо ещё " + str(5-len(list_gamer)) + " игроков.")
+			if len(list_gamer) >= 5:
+				await jg.send(user.name + " присоединился к игре! Для старта нужно написать в чат !СТАРТ игроку, который запустил игру.")
+			await save_msg.delete()
+			emb = discord.Embed(title = "Лобби. Создатель: " + list_gamer[0], color = 0xe74c3c)
+			emb.add_field(name = "Игроки:", value = list_gamer)
+			emb.add_field(name = "Роли в игре:", value= mafia_role)
+			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
+			save = True
+			msg1 = await jg.send(embed = emb)
+			await msg1.add_reaction("➕")
+	if emoji == '😀':
+		print("true is emoji " + user.name)
 
 @Bot.event
 async def on_message(message):
@@ -380,11 +438,12 @@ async def on_message(message):
 			mafia_gamer.append(message.author.name.lower())
 			await jg.send(message.author.name + " Готов!  " + str(len(mafia_gamer)) + " | " + str(len(list_gamer)) )
 			await save_msg.delete()
-			emb = discord.Embed(title = "Все готовы?! + мне в личку", color = 0xe74c3c)
+			emb = discord.Embed(title = "Все готовы?! + мне в личку, или нажмите на реакцию", color = 0xe74c3c)
 			emb.add_field(name = "Игроки готовы:", value = str(len(mafia_gamer)) + " | " + str(len(list_gamer)))
 			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 			save = True
-			await jg.send(embed = emb)
+			msg1 = await jg.send(embed = emb)
+			msg1.add_reaction('➕')
 			a = 0
 			a = random.randint(0, len(mafia_role)-1)
 			print(a)
@@ -403,7 +462,7 @@ async def on_message(message):
 				emb.add_field(name = "Живые игроки:", value = mafia_gamer)
 				emb.set_thumbnail(url="https://moika78.ru/news2/2019/02/1111-246.jpg")
 				save = True
-				await message.channel.send(embed = emb)
+				await jg.send(embed = emb)
 				await jg.send("Просыпается мафия... И делает свой выбор... (напиши имя жертвы в ЛИЧКУ боту)")
 				mafia_hod = "мафия"
 				mafia_role = mafia_role2
@@ -491,7 +550,8 @@ async def on_message(message):
 		emb.add_field(name = "Роли в игре:", value= mafia_role)
 		emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 		save = True
-		await message.channel.send(embed = emb)
+		msg1 = await message.channel.send(embed = emb)
+		await msg1.add_reaction("➕")
 	if mgg == "паспорт":
 		kk = ""
 		if message.author.name.lower() in money[0]:
