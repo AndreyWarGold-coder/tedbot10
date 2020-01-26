@@ -794,7 +794,7 @@ async def on_message(message):
 			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 			save = True
 			msg1 = await jg.send(embed = emb)
-			msg1.add_reaction('➕')
+			await msg1.add_reaction('➕')
 			a = 0
 			a = random.randint(0, len(mafia_role)-1)
 			print(a)
@@ -842,9 +842,11 @@ async def on_message(message):
 			emb.add_field(name = "Роли в игре:", value= mafia_role)
 			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 			save = True
-			await message.channel.send(embed = emb)
+			msg1 = await message.channel.send(embed = emb)
+			await msg1.add_reaction("➕")
 		if mgg == "!старт" and list_gamer[0] == message.author.name.lower() :
 			if len(list_gamer) >= 1 and len(list_gamer) == len(mafia_role):
+				emoji_tt = list_emoji
 				mafia_start = True
 				mafia = False
 				#await jg.send("Игра началась! Проверим, все ли на месте. Напишите в ЛИЧКУ боту + , и он выдаст вам вашу роль.")
@@ -853,7 +855,8 @@ async def on_message(message):
 				emb.add_field(name = "Игроки готовы:", value = "0 | " + str(len(list_gamer)))
 				emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 				save = True
-				await jg.send(embed = emb)
+				msg1 = await jg.send(embed = emb)
+				await msg1.add_reaction("➕")
 			else:
 				await jg.send("Недостаточно игроков или ролей для них! Требуется, как минимум 5 игроков!")
 		if mgg == "+" and not message.author.name.lower() in list_gamer:
@@ -878,7 +881,8 @@ async def on_message(message):
 			emb.add_field(name = "Роли в игре:", value= mafia_role)
 			emb.set_thumbnail(url="https://www.epicwar.com/assets/p/1106/276465.jpg")
 			save = True
-			await message.channel.send(embed = emb)
+			msg1 = await message.channel.send(embed = emb)
+			await msg1.add_reaction("➕")
 	if mgg == "!мафия":
 		mafia = True
 		jg = message.channel
