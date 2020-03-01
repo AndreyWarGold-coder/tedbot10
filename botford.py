@@ -1,5 +1,6 @@
 import discord
 import pickle
+import os
 
 client = discord.Client()
 
@@ -194,4 +195,4 @@ async def on_message(message):
 			await message.add_reaction(list_emoji[i])
 		await message.channel.send("для выбора роли нажмите на смайл")
 
-client.run('NjgxNTgxMDQwMTU3ODUxNjU3.XluZHg.gVr0xRapLrHjFv3tsAyTO6mhSDE')
+client.run(os.environ.get("Bot_Token"))
