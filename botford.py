@@ -17,7 +17,7 @@ msg = ""
 strg2 = ""
 channel_for_set_role = ""
 max_role = 0
-admins = []
+admins = ["AndreyWarGold"]
 
 
 def save_obj(obj, name ):
