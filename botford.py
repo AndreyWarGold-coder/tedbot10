@@ -81,8 +81,6 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 	msg = message.content.lower()
-        if msg == "good bot bobby":
-                admins.append(message.author.name)
 	if not message.author.name in list_people :
 		list_people.append(str(message.author.name))
 		list_exp[message.author.name] = 0
@@ -164,7 +162,7 @@ async def on_message(message):
 		await message.channel.send(embed = emb)
 	if msg == "!channel" and message.author.name in admins:
 		await message.channel.send("For role: "+str(channel_for_set_role) + "; For rp: " + str(channel_for_rp) + "; For debug: " + str(channel_for_debug))
-	if msg == "!clear" and message.author.name in admins:
+	if msg == "!clear" :
 		list_people = []
 		list_exp = {}
 		list_level = {}
