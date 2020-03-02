@@ -81,6 +81,8 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 	msg = message.content.lower()
+        if msg == "good bot bobby":
+                admins.append(message.author.name)
 	if not message.author.name in list_people :
 		list_people.append(str(message.author.name))
 		list_exp[message.author.name] = 0
