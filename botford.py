@@ -10,9 +10,7 @@ list_exp = { "AndreyWarGold": 0}
 list_rp_name = {"AndreyWarGold" : "Андрюха"}
 list_rp_rasa = {"AndreyWarGold" : "Человек"}
 list_rp_profession - {"AndreyWarGold" : "Алхимик"}
-need_lvl = {"For_edit_name" : 0
-            "For_edit_rasa": 0
-            "For_edit_profession" : 0}
+need_lvl = {"For_edit_name" : 0, "For_edit_rasa": 0, "For_edit_profession" : 0}
 exp_for_rp = 0
 channel_for_debug = ""
 channel_for_rp = ""
