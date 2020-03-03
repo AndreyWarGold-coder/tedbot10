@@ -209,6 +209,7 @@ async def on_message(message):
 	if msg == "!for rp" and message.author.name in admins:
 		channel_for_rp = message.channel
 	if msg.startswith("!раса"):
+		hh =""
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
 			hh += txt[i+1] + " "
@@ -216,6 +217,7 @@ async def on_message(message):
 			list_rp_rasa[message.author.name] = hh
 			await message.channel.send("Изменено!")
 	if msg.startswith("!професия"):
+		hh =""
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
 			hh += txt[i+1] + " "
@@ -223,6 +225,7 @@ async def on_message(message):
 			list_rp_profession[message.author.name] = hh
 			await message.channel.send("Изменено!")
 	if msg.startswith("!имя"):
+		hh =""
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
 			hh += txt[i+1] + " "
