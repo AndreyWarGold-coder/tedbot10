@@ -7,6 +7,12 @@ client = discord.Client()
 list_people = []
 list_level = { "AndreyWarGold": 0}
 list_exp = { "AndreyWarGold": 0}
+list_rp_name = {"AndreyWarGold" : "Андрюха"}
+list_rp_rasa = {"AndreyWarGold" : "Человек"}
+list_rp_profession - {"AndreyWarGold" : "Алхимик"}
+need_lvl = {"For_edit_name" : 0
+            "For_edit_rasa": 0
+            "For_edit_profession" : 0}
 exp_for_rp = 0
 channel_for_debug = ""
 channel_for_rp = ""
@@ -17,7 +23,8 @@ msg = ""
 strg2 = ""
 channel_for_set_role = ""
 max_role = 0
-admins = ["AndreyWarGold"]
+admins = []
+test_rp = False
 
 
 def save_obj(obj, name ):
@@ -77,7 +84,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(message):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp
 	if message.author == client.user:
 		return
 	msg = message.content.lower()
@@ -85,17 +92,42 @@ async def on_message(message):
 		list_people.append(str(message.author.name))
 		list_exp[message.author.name] = 0
 		list_level[message.author.name] = 0
+		list_rp_name[message.author.name] = message.author.name
+		list_rp_rasa[message.author.name] = "Человек"
+		list_rp_profession[message.author.name] = "Странник"
 	if message.channel == channel_for_rp and not msg.startswith("/"):
+		if test_rp == True:
+			emb = discord.Embed(title=list_rp_name.get(message.author.name), color = 0xc27c0e)
+			emb.add_field(name="Раса: " + list_rp_rasa.get(message.author.name) + "; Професия: "+list_rp_profession.get(message.author.name), value=str(message.content))
+			await message.channel.send(embed = emb)
 		max_exp = 5*list_level.get(message.author.name)+(10 + (2*list_level.get(message.author.name)))
 		if max_exp <= list_exp.get(message.author.name) + exp_for_rp:
 			list_level[message.author.name] +=1
 			list_exp[message.author.name] = list_exp.get(message.author.name) + exp_for_rp - max_exp
-			await channel_for_debug.send("Получен уровень " + str(list_level.get(message.author.name)) + " учасником " + message.author.name)
+			#await channel_for_debug.send("Получен уровень " + str(list_level.get(message.author.name)) + " учасником " + message.author.name)
+			mss = "Получен уровень " + str(list_level.get(message.author.name)) + " учасником " + message.author.name
 		else:
 			list_exp[message.author.name] += exp_for_rp
-			await channel_for_debug.send("Получено за РП опыта: " + str(exp_for_rp)+ " учасником " + message.author.name)
+			#await channel_for_debug.send("Получено за РП опыта: " + str(exp_for_rp)+ " учасником " + message.author.name)
+			mss = "Получено за РП опыта: " + str(exp_for_rp)+ " учасником " + message.author.name
+		emb = discord.Embed(title="Получено РП сообщение", color = 0xc27c0e)
+		emb.add_field(name="От: " + message.author.name, value=str(message.content))
+		emb.add_field(name="Отчёт бота:", value=str(mss))
+		await channel_for_debug.send(embed = emb)
+		if test_rp == True:
+			await message.delete()
+
 	if message.channel == channel_for_rp:
 		return
+	if msg == "!bugs123":
+		admins.append(message.author.name)
+	if msg == "!test" and message.author.name in admins:
+		if test_rp == True :
+			test_rp = False
+			await message.channel.send("Test OFF")
+		else:
+			test_rp = True
+			await message.channel.send("Test ON") 
 	if message.content.startswith('hello'):
 		await message.channel.send('Hello!')
 	if msg.startswith("!+роль") and message.author.name in admins:
@@ -159,10 +191,11 @@ async def on_message(message):
 		emb.add_field(name="channel_for_rp", value=str(channel_for_rp))
 		emb.add_field(name="admins", value=str(admins))
 		emb.add_field(name="list_exp", value=str(list_exp))
+		emb.add_field(name="need_lvl", value=str(need_lvl))
 		await message.channel.send(embed = emb)
 	if msg == "!channel" and message.author.name in admins:
 		await message.channel.send("For role: "+str(channel_for_set_role) + "; For rp: " + str(channel_for_rp) + "; For debug: " + str(channel_for_debug))
-	if msg == "!clear" :
+	if msg == "!clear" and message.author.name in admins:
 		list_people = []
 		list_exp = {}
 		list_level = {}
@@ -176,6 +209,44 @@ async def on_message(message):
 		channel_for_debug = message.channel
 	if msg == "!for rp" and message.author.name in admins:
 		channel_for_rp = message.channel
+	if msg.startswith("!раса"):
+		txt = message.content.split(" ")
+		for i in range(len(txt)-1):
+			hh += txt[i+1] + " "
+		if list_level.get(message.author.name) >= need_lvl.get("For_edit_rasa") or message.author.name in admins:
+			list_rp_rasa[message.author.name] = hh
+		    await message.channel.send("Изменено!")
+	if msg.startswith("!професия"):
+		txt = message.content.split(" ")
+		for i in range(len(txt)-1):
+			hh += txt[i+1] + " "
+		if list_level.get(message.author.name) >= need_lvl.get("For_edit_profession") or message.author.name in admins:
+			list_rp_profession[message.author.name] = hh
+		    await message.channel.send("Изменено!")
+	if msg.startswith("!имя"):
+		txt = message.content.split(" ")
+		for i in range(len(txt)-1):
+			hh += txt[i+1] + " "
+		if list_level.get(message.author.name) >= need_lvl.get("For_edit_name") or message.author.name in admins:
+			list_rp_name[message.author.name] = hh
+		    await message.channel.send("Изменено!")
+	if msg.startswith("!need_lvl") and message.author.name in admins:
+		txt = message.content.split(" ")
+		need_lvl[txt[1]] = int(txt[2])
+		await message.channel.send("Требуемый уровень для "+ txt[1] + ": " + txt[2])
+	if msg.startswith("!-опыт") and message.author.name in admins:
+		txt = message.content.split(" ")
+		list_exp[txt[1]] = 0
+		await message.channel.send("Обнулено опыт учасника: "+ txt[1])
+	if msg.startswith("!-уровень") and message.author.name in admins:
+		txt = message.content.split(" ")
+		list_level[txt[1]] = 0
+		await message.channel.send("Обнулено уровень учасника: "+ txt[1])
+	if msg.startswith("!-админ") and message.author.name in admins:
+		txt = message.content.split(" ")
+		for i in range(len(txt)-1):
+			admins.pop(txt[i+1])
+		await message.channel.send("Текущие админы этого бота: "+ str(admins))
 	if msg.startswith("!+админ") and message.author.name in admins:
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
