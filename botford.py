@@ -23,6 +23,7 @@ channel_for_set_role = ""
 max_role = 0
 admins = []
 test_rp = False
+hh = ""
 
 
 def save_obj(obj, name ):
@@ -35,7 +36,7 @@ def load_obj(name ):
 
 @client.event
 async def on_ready():
-	global list_role, list_emoji, list_people, max_role, admins, channel_for_set_role, channel_for_rp, channel_for_debug, list_level, list_exp, exp_for_rp
+	global list_role, list_emoji, list_people, max_role, admins, channel_for_set_role, channel_for_rp, channel_for_debug, list_level, list_exp, exp_for_rp, hh
 	with open('obj/' + "emoji" + '.pkl', 'rb') as f:
 		list_emoji = pickle.load(f)
 	with open('obj/' + "set_channel" + '.pkl', 'rb') as f:
