@@ -213,21 +213,21 @@ async def on_message(message):
 			hh += txt[i+1] + " "
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_rasa") or message.author.name in admins:
 			list_rp_rasa[message.author.name] = hh
-		    await message.channel.send("Изменено!")
+			await message.channel.send("Изменено!")
 	if msg.startswith("!професия"):
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
 			hh += txt[i+1] + " "
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_profession") or message.author.name in admins:
 			list_rp_profession[message.author.name] = hh
-		    await message.channel.send("Изменено!")
+			await message.channel.send("Изменено!")
 	if msg.startswith("!имя"):
 		txt = message.content.split(" ")
 		for i in range(len(txt)-1):
 			hh += txt[i+1] + " "
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_name") or message.author.name in admins:
 			list_rp_name[message.author.name] = hh
-		    await message.channel.send("Изменено!")
+			await message.channel.send("Изменено!")
 	if msg.startswith("!need_lvl") and message.author.name in admins:
 		txt = message.content.split(" ")
 		need_lvl[txt[1]] = int(txt[2])
