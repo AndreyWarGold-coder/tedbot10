@@ -1169,5 +1169,5 @@ async def on_message(message):
 			await message.add_reaction(list_emoji[i])
 		await message.channel.send("для выбора роли нажмите на смайл")
 
-client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XmkgTQ.DNegyhHh6jToGYVKJGIbRN3JvV4")
-#client.run(os.environ.get("Bot_Token"))
+#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XmkgTQ.DNegyhHh6jToGYVKJGIbRN3JvV4")
+client.run(os.environ.get("Bot_Token"))
