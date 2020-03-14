@@ -1248,5 +1248,5 @@ async def on_message(message):
 				await list_members[a].add_roles(t_role)
 				print("дано роль " + list_members[a].name)
 
-client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XmyYWw.MORV2qMxPP0Bo7cgX717GPAwrvM")
-#client.run(os.environ.get("Bot_Token"))
+#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XmyYWw.MORV2qMxPP0Bo7cgX717GPAwrvM")
+client.run(os.environ.get("Bot_Token"))
