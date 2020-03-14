@@ -21,10 +21,10 @@ colors = {"синий": 0x3498db,
 		  "красный": 0xe74c3c,
 		  "зелёный": 0x99aab5,
 		  "оранжевый": 0xe67e22,
-		  "жолтый": 0xf1c40f,
+		  "жёлтый": 0xf1c40f,
 		  "фиолетовый": 0x9b59b6,
 		  "0": 0}
-need_lvl = {"For_edit_name" : 0, "For_edit_rasa": 0, "For_edit_profession" : 0}
+need_lvl = {"For_edit_name" : 0, "For_edit_rasa": 0, "For_edit_profession" : 0, "For_edit_color" : 0}
 exp_for_rp = 0
 channel_for_debug = ""
 channel_for_rp = ""
@@ -118,7 +118,7 @@ async def on_raw_reaction_remove(payload):
 	await memb.remove_roles(discord.utils.get(msg.guild.roles, id=int(list_role[list_emoji.index(str(payload.emoji))]) ))
 @client.event
 async def on_raw_reaction_add(payload):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors , list_rp_color
 	channel = client.get_channel(payload.channel_id)
 	msg = await channel.fetch_message(payload.message_id)
 	emoji = str(payload.emoji)
@@ -1200,8 +1200,8 @@ async def on_message(message):
 	if msg.startswith("!цвет"):
 		hh =""
 		txt = message.content.split(" ")
-		if list_level.get(message.author.name) >= need_lvl.get("For_edit_name") or message.author.name in admins:
-			list_rp_color[message.author.name] = hh
+		if list_level.get(message.author.name) >= need_lvl.get("For_edit_color") or message.author.name in admins:
+			list_rp_color[message.author.name] = txt[1]
 			await message.channel.send("Изменено! Есть цвета: " + str(colors))
 	if msg.startswith("!need_lvl") and message.author.name in admins:
 		txt = message.content.split(" ")
@@ -1248,5 +1248,5 @@ async def on_message(message):
 				await list_members[a].add_roles(t_role)
 				print("дано роль " + list_members[a].name)
 
-#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XmyYWw.MORV2qMxPP0Bo7cgX717GPAwrvM")
+#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.Xm04Lw.uK8H8Pxjj--rd4_PwI0yIwahuCQ")
 client.run(os.environ.get("Bot_Token"))
