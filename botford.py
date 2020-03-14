@@ -527,7 +527,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(message):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color
 	if message.author == client.user:
 		if save == True: 
 			save = False
