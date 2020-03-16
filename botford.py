@@ -11,6 +11,9 @@ from datetime import datetime
 client = discord.Client()
 
 list_people = []
+start_money = 0
+lvl_money = 25
+list_money = {"AndreyWarGold": 100}
 list_level = { "AndreyWarGold": 0}
 list_exp = { "AndreyWarGold": 0}
 list_rp_name = {"AndreyWarGold" : "Андрюха"}
@@ -34,7 +37,7 @@ money = [[], [], [], [], [], [], [], [], []]
 mafia_gamer = []
 mafia_kill = []
 list_golos = []
-list_emoji = ["🍏""🍐"'🍊''🍌''🍉''🍇''🍒''🍍''🥥''🥝''🥓''⚽''🏀''🏈''⚾''🏋️‍♀️''🏅''🏆''🎲''🎧''🚗''🚌''🌈']
+list_emoji = ["🍏","🍐",'🍊','🍌','🍉','🍇','🍒','🍍','🥥','🥝','🥓','⚽','🏀','🏈','⚾','🏋️‍♀️','🏅','🏆','🎲','🎧','🚗','🚌','🌈']
 mafia_kill = []
 mafia_game = False
 mafia_start = False
@@ -47,7 +50,7 @@ mafia_heal = ""
 mafia_sherif = ""
 mafia_putana = ""
 save = False
-poh = ""
+poh = 686189474715271168
 last_update = datetime.now()
 
 list_emoji = []
@@ -71,7 +74,7 @@ def load_obj(name ):
 
 @client.event
 async def on_ready():
-	global list_role, list_emoji, list_people, max_role, admins, channel_for_set_role, channel_for_rp, channel_for_debug, list_level, list_exp, exp_for_rp, hh
+	global list_role, list_emoji, list_people, max_role, admins, channel_for_set_role, channel_for_rp, channel_for_debug, list_level, list_exp, exp_for_rp, hh, poh
 	with open('obj/' + "emoji" + '.pkl', 'rb') as f:
 		list_emoji = pickle.load(f)
 	with open('obj/' + "set_channel" + '.pkl', 'rb') as f:
@@ -103,7 +106,7 @@ async def on_ready():
 	print("We have logged")
 @client.event
 async def on_raw_reaction_remove(payload):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, last_update, channel_for_online
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, last_update, channel_for_online, poh
 	channel = client.get_channel(payload.channel_id)
 	msg = await channel.fetch_message(payload.message_id)
 	emoji = str(payload.emoji)
@@ -116,6 +119,8 @@ async def on_raw_reaction_remove(payload):
 	if user == client.user:
 		return
 	await memb.remove_roles(discord.utils.get(msg.guild.roles, id=int(list_role[list_emoji.index(str(payload.emoji))]) ))
+	if len(memb.roles) < 2:
+		await memb.add_roles(discord.utils.get(msg.guild.roles, id=poh ))
 @client.event
 async def on_raw_reaction_add(payload):
 	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors , list_rp_color
@@ -128,8 +133,8 @@ async def on_raw_reaction_add(payload):
 		return
 	if str(payload.emoji) in list_emoji and payload.channel_id == channel_for_set_role.id and len(memb.roles) < max_role:
 		await memb.add_roles(discord.utils.get(msg.guild.roles, id=int(list_role[list_emoji.index(str(payload.emoji))]) ))
-		if poh in memb.roles:
-			await memb.remove_roles(poh)
+		if discord.utils.get(msg.guild.roles, id=poh ) in memb.roles:
+			await memb.remove_roles(discord.utils.get(msg.guild.roles, id=poh ))
 
 	for g in range(len(mafia_gamer)):
 		if money[7][money[0].index(mafia_gamer[g])] == emoji:
@@ -527,7 +532,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(message):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color, start_money, list_money, lvl_money
 	if message.author == client.user:
 		if save == True: 
 			save = False
@@ -545,6 +550,7 @@ async def on_message(message):
 		list_rp_rasa[message.author.name] = "Человек"
 		list_rp_profession[message.author.name] = "Странник"
 		list_rp_color[message.author.name] = "0"
+		list_money[message.author.name] = start_money
 	if message.channel == channel_for_rp and not msg.startswith("/"):
 		if test_rp == True:
 			emb = discord.Embed(title=list_rp_name.get(message.author.name), color = colors.get(list_rp_color.get(message.author.name)))
@@ -554,6 +560,7 @@ async def on_message(message):
 		if max_exp <= list_exp.get(message.author.name) + exp_for_rp:
 			list_level[message.author.name] +=1
 			list_exp[message.author.name] = list_exp.get(message.author.name) + exp_for_rp - max_exp
+			list_money[message.author.name] = list_money.get(message.author.name) + lvl_money
 			#await channel_for_debug.send("Получен уровень " + str(list_level.get(message.author.name)) + " учасником " + message.author.name)
 			mss = "Получен уровень " + str(list_level.get(message.author.name)) + " учасником " + message.author.name
 		else:
@@ -563,6 +570,7 @@ async def on_message(message):
 		emb = discord.Embed(title="Получено РП сообщение", color = 0xc27c0e)
 		emb.add_field(name="От: " + message.author.name, value=str(message.content))
 		emb.add_field(name="Отчёт бота:", value=str(mss))
+		emb.set_thumbnail(url=message.author.avatar_url)
 		await channel_for_debug.send(embed = emb)
 		if test_rp == True:
 			await message.delete()
@@ -572,44 +580,44 @@ async def on_message(message):
 	if msg in ["!help", "!хелп", "!помощь", "!помоги", "!помогите", "!спасай", "!как", "!помагай", "!хелпми", "!хелп ми", "!давай помощь"]:
 		if message.author in admins:
 			emb = discord.Embed(title="Помощь", color = 0xc27c0e)
-			emb.add_field(name="Команды", value='''!инфа - показует твою инфу
-!мафия - включение режима мафия(текстовая игра)
-!мафия выкл - выключение мафии, нужно обезательно выключать если не играете, для избежания багов
-!имя ~имя~ - смена РП имени
-!раса ~название~ - смена РП расы
-!профессия ~название~ - смена РП профессии
-!цвет ~название цвета~ - смена цвета сообщений в РП чате''')
+			emb.add_field(name="Команды", value='''**!инфа** - показует твою инфу
+**!мафия** - включение режима мафия(текстовая игра)
+**!мафия выкл** - выключение мафии, нужно обезательно выключать если не играете, для избежания багов
+**!имя ~имя~** - смена РП имени
+**!раса ~название~** - смена РП расы
+**!профессия ~название~** - смена РП профессии
+**!цвет ~название цвета~** - смена цвета сообщений в РП чате''')
 			await message.channel.send(embed = emb)
 		else:
 			emb = discord.Embed(title="Помощь", color = 0xc27c0e)
-			emb.add_field(name="Команды", value='''!debug - значения всех переменных(список админов, ролей(айди ролей), емоджи к ролям, максимальное количество ролей в учасника, и т.д.)
-!save - сохранение важных данных, таких как список админов, списой ролей, и т.д. (на случай того если бот внезапно отключится, желательно сохранять данные раз в неделю)
-!роли ~текс, любой~ - на этом сообщении бот ставит емоджи и отслежует их нажатие, и соответсвенно выдаёт роли
-!макс ролей ~кол-во~ - устанавливает лимит ролей у учасника
-!for role - устанавливает этот канал для роздачи ролей, в других каналах роздача не будет работать
-!clear - очищает список игроков, админов
-!clear role - очищает роли и емоджи к ним
-!+роль ~айди роли~ - добавляет в список роль, можно писать много айди ролей через пробел
-!+емодж ~емодж~ - добавляем в список емоджи, добавлять нужно в том же порядке что и роли, так же можно уводить через пробел
-!+админ ~ник, с учётом регистра~ - добавляет админа боту
-!инфа - показует твою инфу
-!for rp - установить текстовый канал для рп
+			emb.add_field(name="Команды", value='''**!debug** - значения всех переменных(список админов, ролей(айди ролей), емоджи к ролям, максимальное количество ролей в учасника, и т.д.)
+**!save** - сохранение важных данных, таких как список админов, списой ролей, и т.д. (на случай того если бот внезапно отключится, желательно сохранять данные раз в неделю)
+**!роли ~текс, любой~** - на этом сообщении бот ставит емоджи и отслежует их нажатие, и соответсвенно выдаёт роли
+**!макс ролей ~кол-во~** - устанавливает лимит ролей у учасника
+**!for role** - устанавливает этот канал для роздачи ролей, в других каналах роздача не будет работать
+**!clear** - очищает список игроков, админов
+**!clear role** - очищает роли и емоджи к ним
+**!+роль ~айди роли~** - добавляет в список роль, можно писать много айди ролей через пробел
+**!+емодж ~емодж~** - добавляем в список емоджи, добавлять нужно в том же порядке что и роли, так же можно уводить через пробел
+**!+админ ~ник, с учётом регистра~** - добавляет админа боту
+**!инфа** - показует твою инфу
+**!for rp** - установить текстовый канал для рп
 
 ''')
-			emb.add_field(name="2page", value='''!for debug - установить канал для отчёта
-!мафия - включение режима мафия(текстовая игра)
-!мафия выкл - выключение мафии, нужно обезательно выключать если не играете, для избежания багов
-!test - включение~отключение тестового мода для РП
-!-опыт ~ник игрока~ - устанавливает игроку опыт на 0
-!-уровень ~ник~ - устанавливает уровень 0
-!-админ ~ник~ - убирает с админов
-!опыт за рп ~колво~ - устанавливает получение опыта за рп сообщение
-!need_lvl ~для чего (For_edit_name, For_edit_rasa, For_edit_profession)~ ~нужный лвл~ - устанавливает уровень, требуемый для смены расы~имени~профессии
-!имя ~имя~ - смена РП имени
-!раса ~название~ - смена РП расы
-!профессия ~название~ - смена РП профессии
-!цвет ~название цвета~ - смена цвета сообщений в РП чате
-!всем_роль ~айди роли~ ~условие, если есть столько или меньше ролей(цыфра)~ - выдача всем роли, с условием
+			emb.add_field(name="2page", value='''**!for debug** - установить канал для отчёта
+**!мафия** - включение режима мафия(текстовая игра)
+**!мафия выкл** - выключение мафии, нужно обезательно выключать если не играете, для избежания багов
+**!test** - включение~отключение тестового мода для РП
+**!-опыт ~ник игрока~** - устанавливает игроку опыт на 0
+**!-уровень ~ник~** - устанавливает уровень 0
+**!-админ ~ник~** - убирает с админов
+**!опыт за рп ~колво~** - устанавливает получение опыта за рп сообщение
+**!need_lvl ~для чего (For_edit_name, For_edit_rasa, For_edit_profession)~ ~нужный лвл~** - устанавливает уровень, требуемый для смены расы~имени~профессии
+**!имя ~имя~** - смена РП имени
+**!раса ~название~** - смена РП расы
+**!профессия ~название~** - смена РП профессии
+**!цвет ~название цвета~** - смена цвета сообщений в РП чате
+**!всем_роль ~айди роли~ ~условие, если есть столько или меньше ролей(цыфра)~** - выдача всем роли, с условием
 ''')
 			await message.channel.send(embed = emb)
 	if mafia_game == True and mgg =="!цифра":
@@ -1132,7 +1140,7 @@ async def on_message(message):
 	if msg in ["!инфа", "!infa", "!info", "!инфо", "!про меня", "!я", "!меня"]:
 		emb = discord.Embed(title="Имя: " +  message.author.name, color = 0xc27c0e)
 		emb.add_field(name="Уровень РП: " + str(list_level.get(message.author.name)), value='Опыт: ' + str(list_exp.get(message.author.name)) + " / " + str(5*list_level.get(message.author.name)+(10 + (2*list_level.get(message.author.name)))))
-		emb.add_field(name="Баланс:", value=str(0) +"$")
+		emb.add_field(name="Баланс:", value=str(list_money.get(message.author.name)) +"$")
 		listok = str(message.author.roles).split("'")
 		sdf = ""
 		for i in range(len(listok)):
@@ -1189,6 +1197,12 @@ async def on_message(message):
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_profession") or message.author.name in admins:
 			list_rp_profession[message.author.name] = hh
 			await message.channel.send("Изменено!")
+	#if msg.startswith("!удача "):
+		#txt = message.content.split(" ")
+		#c = random.randint(0, 100)
+		#if int(txt[2]) - int(txt[1]) == 10:
+			#if c >= int(txt[1]) and c <= int(txt[2]):
+			#	await message.channel.send("Вы выиграли")
 	if msg.startswith("!имя"):
 		hh =""
 		txt = message.content.split(" ")
