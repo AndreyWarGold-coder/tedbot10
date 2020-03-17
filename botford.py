@@ -32,6 +32,7 @@ exp_for_rp = 0
 channel_for_debug = ""
 channel_for_rp = ""
 channel_for_online = ""
+channel_for_save = ""
 mafia_roles = ["мафия", "врач", "путана", "мирный", "шериф"]
 money = [[], [], [], [], [], [], [], [], []]
 mafia_gamer = []
@@ -115,6 +116,7 @@ async def on_raw_reaction_remove(payload):
 	#if datetime.now() - last_update >= timedelta(minutes=1):
 	#	last_update = datetime.now()
 	#	await channel_for_online.send()
+
 
 	if user == client.user:
 		return
@@ -586,7 +588,8 @@ async def on_message(message):
 **!имя ~имя~** - смена РП имени
 **!раса ~название~** - смена РП расы
 **!профессия ~название~** - смена РП профессии
-**!цвет ~название цвета~** - смена цвета сообщений в РП чате''')
+**!цвет ~название цвета~** - смена цвета сообщений в РП чате
+**!удача** - игра на $ и удачу''')
 			await message.channel.send(embed = emb)
 		else:
 			emb = discord.Embed(title="Помощь", color = 0xc27c0e)
@@ -596,13 +599,13 @@ async def on_message(message):
 **!макс ролей ~кол-во~** - устанавливает лимит ролей у учасника
 **!for role** - устанавливает этот канал для роздачи ролей, в других каналах роздача не будет работать
 **!clear** - очищает список игроков, админов
-**!clear role** - очищает роли и емоджи к ним
+''')
+			emb.add_field(name="1page", value='''**!clear role** - очищает роли и емоджи к ним
 **!+роль ~айди роли~** - добавляет в список роль, можно писать много айди ролей через пробел
 **!+емодж ~емодж~** - добавляем в список емоджи, добавлять нужно в том же порядке что и роли, так же можно уводить через пробел
 **!+админ ~ник, с учётом регистра~** - добавляет админа боту
 **!инфа** - показует твою инфу
 **!for rp** - установить текстовый канал для рп
-
 ''')
 			emb.add_field(name="2page", value='''**!for debug** - установить канал для отчёта
 **!мафия** - включение режима мафия(текстовая игра)
@@ -612,13 +615,14 @@ async def on_message(message):
 **!-уровень ~ник~** - устанавливает уровень 0
 **!-админ ~ник~** - убирает с админов
 **!опыт за рп ~колво~** - устанавливает получение опыта за рп сообщение
-**!need_lvl ~для чего (For_edit_name, For_edit_rasa, For_edit_profession)~ ~нужный лвл~** - устанавливает уровень, требуемый для смены расы~имени~профессии
+''')
+			emb.add_field(name="3page", value='''**!need_lvl ~для чего (For_edit_name, For_edit_rasa, For_edit_profession)~ ~нужный лвл~** - устанавливает уровень, требуемый для смены расы~имени~профессии
 **!имя ~имя~** - смена РП имени
 **!раса ~название~** - смена РП расы
 **!профессия ~название~** - смена РП профессии
 **!цвет ~название цвета~** - смена цвета сообщений в РП чате
 **!всем_роль ~айди роли~ ~условие, если есть столько или меньше ролей(цыфра)~** - выдача всем роли, с условием
-''')
+**!удача** - игра на $ и удачу''')
 			await message.channel.send(embed = emb)
 	if mafia_game == True and mgg =="!цифра":
 		kk = ""
@@ -1177,6 +1181,8 @@ async def on_message(message):
 		list_role = []
 	if msg == "!for role" and message.author.name in admins:
 		channel_for_set_role = message.channel
+	if msg == "!for save" and message.author.name in admins:
+		channel_for_save = message.channel
 	if msg == "!for debug" and message.author.name in admins:
 		channel_for_debug = message.channel
 	if msg == "!for rp" and message.author.name in admins:
@@ -1197,12 +1203,23 @@ async def on_message(message):
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_profession") or message.author.name in admins:
 			list_rp_profession[message.author.name] = hh
 			await message.channel.send("Изменено!")
-	#if msg.startswith("!удача "):
-		#txt = message.content.split(" ")
-		#c = random.randint(0, 100)
-		#if int(txt[2]) - int(txt[1]) == 10:
-			#if c >= int(txt[1]) and c <= int(txt[2]):
-			#	await message.channel.send("Вы выиграли")
+	if msg == "!удача":
+		await message.channel.send("Это игра на удачу! Играть командой **!удача (с этого числа) (по этое) (ставка)**   Промежуток должен быть в 10 чисел!")
+	if msg.startswith("!удача "):
+		txt = message.content.split(" ")
+		if int(txt[3]) <= list_money.get(message.author.name):
+			list_money[message.author.name] -= int(txt[3]) 
+			c = random.randint(0, 100)
+			if int(txt[2]) - int(txt[1]) == 10:
+				if c >= int(txt[1]) and c <= int(txt[2]):
+					await message.channel.send("Вы выиграли " + str((int(txt[3])*1.5)//1) + "$, ответ был " + str(c))
+					list_money[message.author.name] += (int(txt[3])*1.5)//1
+				else:
+					await message.channel.send("Вы проиграли " + str(int(txt[3])) + "$, ответ был " + str(c))
+			else:
+				await message.channel.send("Неправильно указан промежуток чисел!!!  Писать нужно в таком формате: **!удача (с какого числа) (по какое) (ставка)**  промежуток должен быть в 10 чисел")
+		else:
+			await message.channel.send("Недостаточно денег на балансе!!! Ваш баланс: " + str(list_money.get(message.author.name)) + "$")
 	if msg.startswith("!имя"):
 		hh =""
 		txt = message.content.split(" ")
@@ -1262,5 +1279,5 @@ async def on_message(message):
 				await list_members[a].add_roles(t_role)
 				print("дано роль " + list_members[a].name)
 
-#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.Xm04Lw.uK8H8Pxjj--rd4_PwI0yIwahuCQ")
+#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XnCL1Q.lwxNO8_lIHJt44p_hJ6K0AvQVmA")
 client.run(os.environ.get("Bot_Token"))
