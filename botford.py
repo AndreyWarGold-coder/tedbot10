@@ -9,7 +9,13 @@ from datetime import timedelta
 from datetime import datetime
 
 client = discord.Client()
-
+ochko_21 = {"Player" : "",
+            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+            "emoji_yes": "✅",
+            "emoji_no": "⭕",
+            "is_21": False,
+            "suma": 0,
+            "stavka": 0}
 list_people = []
 start_money = 0
 lvl_money = 25
@@ -107,7 +113,7 @@ async def on_ready():
 	print("We have logged")
 @client.event
 async def on_raw_reaction_remove(payload):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, last_update, channel_for_online, poh
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, last_update, channel_for_online, poh, ochko_21
 	channel = client.get_channel(payload.channel_id)
 	msg = await channel.fetch_message(payload.message_id)
 	emoji = str(payload.emoji)
@@ -120,12 +126,61 @@ async def on_raw_reaction_remove(payload):
 
 	if user == client.user:
 		return
+	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
+		if emoji == ochko_21.get("emoji_no"):
+			a_bot = random.randint(15, 25)
+			if a_bot > 21 or ochko_21.get("suma") > a_bot :
+				list_money[user.name] += ochko_21.get("stavka")
+				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+			if a_bot < 22 and a_bot == ochko_21.get("suma"):
+				await channel.send("Ничия! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+
+
+
+		if emoji == ochko_21.get("emoji_yes"):
+			a = random.randint(0, len(ochko_21.get("Karts"))-1)
+			ochko_21["suma"] += ochko_21.get("Karts")[a]
+			if ochko_21.get("suma") > 21:
+				emb = discord.Embed(title = "21 очко. Игрок: " + user.name, color = 0xe74c3c)
+				emb.add_field(name = "Ставка:", value = str(ochko_21.get("stavka")))
+				emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+				await ochko_21.get("msg").edit(embed = emb)
+				await channel.send("Вы набрали больше 21 очка! Вы проиграли " + str(ochko_21.get("stavka")) + "$")
+				list_money[user.name] -= ochko_21.get("stavka")
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+			else:
+				emb = discord.Embed(title = "21 очко. Игрок: " + user.name, color = 0xe74c3c)
+				emb.add_field(name = "Ставка:", value = str(ochko_21.get("stavka")))
+				emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+				await ochko_21.get("msg").edit(embed = emb)
+
+
 	await memb.remove_roles(discord.utils.get(msg.guild.roles, id=int(list_role[list_emoji.index(str(payload.emoji))]) ))
 	if len(memb.roles) < 2:
 		await memb.add_roles(discord.utils.get(msg.guild.roles, id=poh ))
 @client.event
 async def on_raw_reaction_add(payload):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors , list_rp_color
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, channel_for_debug, exp_for_rp, list_level, list_exp, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors , list_rp_color, ochko_21
 	channel = client.get_channel(payload.channel_id)
 	msg = await channel.fetch_message(payload.message_id)
 	emoji = str(payload.emoji)
@@ -133,6 +188,53 @@ async def on_raw_reaction_add(payload):
 	memb = payload.member
 	if user == client.user:
 		return
+	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
+		if emoji == ochko_21.get("emoji_no"):
+			a_bot = random.randint(15, 25)
+			if a_bot > 21 or ochko_21.get("suma") > a_bot :
+				list_money[user.name] += ochko_21.get("stavka")
+				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+			if a_bot < 22 and a_bot == ochko_21.get("suma"):
+				await channel.send("Ничия! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+
+
+
+		if emoji == ochko_21.get("emoji_yes"):
+			a = random.randint(0, len(ochko_21.get("Karts"))-1)
+			ochko_21["suma"] += ochko_21.get("Karts")[a]
+			if ochko_21.get("suma") > 21:
+				emb = discord.Embed(title = "21 очко. Игрок: " + user.name, color = 0xe74c3c)
+				emb.add_field(name = "Ставка:", value = str(ochko_21.get("stavka")))
+				emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+				await ochko_21.get("msg").edit(embed = emb)
+				await channel.send("Вы набрали больше 21 очка! Вы проиграли " + str(ochko_21.get("stavka")) + "$")
+				list_money[user.name] -= ochko_21.get("stavka")
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+			else:
+				emb = discord.Embed(title = "21 очко. Игрок: " + user.name, color = 0xe74c3c)
+				emb.add_field(name = "Ставка:", value = str(ochko_21.get("stavka")))
+				emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+				await ochko_21["msg"].edit(embed = emb)
 	if str(payload.emoji) in list_emoji and payload.channel_id == channel_for_set_role.id and len(memb.roles) < max_role:
 		await memb.add_roles(discord.utils.get(msg.guild.roles, id=int(list_role[list_emoji.index(str(payload.emoji))]) ))
 		if discord.utils.get(msg.guild.roles, id=poh ) in memb.roles:
@@ -534,7 +636,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(message):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color, start_money, list_money, lvl_money
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color, start_money, list_money, lvl_money, ochko_21
 	if message.author == client.user:
 		if save == True: 
 			save = False
@@ -1095,6 +1197,18 @@ async def on_message(message):
 		save = True
 		msg1 = await message.channel.send(embed = emb)
 		await msg1.add_reaction("➕")
+	if msg.startswith("!21 ") and ochko_21.get("is_21") == False:
+		stavka = int(msg.split(" ")[1])
+		ochko_21["stavka"] = stavka
+		ochko_21["Player"] = message.author.name
+		ochko_21["is_21"] = True
+		emb = discord.Embed(title = "21 очко. Игрок: " + message.author.name, color = 0xe74c3c)
+		emb.add_field(name = "Ставка:", value = str(stavka))
+		emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+		ochko_21["msg"] = await message.channel.send(embed = emb)
+		await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_yes"))
+		await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_no"))
+		await message.channel.send("✅ - взять карту, ⭕ - открыть карты")
 	if msg == "!bugs123":
 		admins.append(message.author.name)
 	if msg == "!test" and message.author.name in admins:
@@ -1279,5 +1393,5 @@ async def on_message(message):
 				await list_members[a].add_roles(t_role)
 				print("дано роль " + list_members[a].name)
 
-#client.run("NjgxNTgxMDQwMTU3ODUxNjU3.XnCL1Q.lwxNO8_lIHJt44p_hJ6K0AvQVmA")
+#client.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XnHXSg.g_36H9nrQAM0t176_XiRa26J7w0")
 client.run(os.environ.get("Bot_Token"))
