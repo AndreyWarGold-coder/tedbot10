@@ -7,3 +7,5 @@ attrs
 idna
 multidict
 yarl
+requests
+beautifulsoup4

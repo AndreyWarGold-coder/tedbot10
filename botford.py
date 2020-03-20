@@ -7,8 +7,86 @@ from discord.ext.commands import Bot
 from discord import utils
 from datetime import timedelta
 from datetime import datetime
+import requests
+from bs4 import BeautifulSoup as BS
 
 client = discord.Client()
+games = {"sandbox" : [],
+         "racing": [],
+         "arcade": [],
+         "rpg": [],
+         "strategy": [],
+         "action": [],
+         "shooter": [],
+         "fighting": [],
+         "indie": []}
+
+for j in range(5):
+	r = requests.get("https://coop-land.ru/tags/sandbox/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["sandbox"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/racing/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["racing"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/arcade/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["arcade"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/rpg/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["rpg"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/strategy/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["strategy"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/action/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["action"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/allgames/shooter/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["shooter"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/tags/Fighting/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["fighting"].append(s.get("href"))
+for j in range(5):
+	r = requests.get("https://coop-land.ru/tags/Indie/page/"+str(j+1))
+	html = BS(r.content, "html.parser")
+	items = html.find_all("a", class_="big-link")
+	for s in items:
+	    games["indie"].append(s.get("href"))
+
+
+#items = items.find("a", class_="title")
+print(len(games["sandbox"]))
+print(len(games["racing"]))
+print(len(games["arcade"]))
+print(len(games["rpg"]))
+print(len(games["strategy"]))
+print(len(games["action"]))
+print(len(games["shooter"]))
+print(len(games["fighting"]))
+print(len(games["indie"]))
 ochko_21 = {"Player" : "",
             "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
             "emoji_yes": "✅",
@@ -636,7 +714,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(message):
-	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color, start_money, list_money, lvl_money, ochko_21
+	global list_role, list_emoji, list_people, msg, strg2, file, channel_for_set_role, max_role, admins, list_level, list_exp, exp_for_rp, channel_for_debug, channel_for_rp, test_rp, list_rp_profession, list_rp_rasa, list_rp_name, test_rp, hh, money, jg, list_emoji, emoji_tt, save, save_msg, list_gamer, mafia, mafia_start, mafia_role, mafia_roles, mafia_hod, mafia_game, mafia_gamer, mafia_kill, mafia_night, mafia_putana, mafia_heal, mafia_sherif, list_golos, list_goloskill, mafia_role2, poh, last_update, channel_for_online, colors, list_rp_color, start_money, list_money, lvl_money, ochko_21, games
 	if message.author == client.user:
 		if save == True: 
 			save = False
@@ -646,6 +724,13 @@ async def on_message(message):
 		return
 	msg = message.content.lower()
 	mgg = message.content.lower()
+	#print(message.content)
+	#hz = message.content.split(">")
+	#hz = hz[0].split("!")
+	#hz = hz[1]
+	#print(hz)
+
+
 	if not message.author.name in list_people :
 		list_people.append(str(message.author.name))
 		list_exp[message.author.name] = 0
@@ -681,6 +766,33 @@ async def on_message(message):
 
 	if message.channel == channel_for_rp:
 		return
+	if msg.startswith("!game "):
+		txt = msg.split(" ")
+		if txt[1] in ["sandbox", "сандбокс", "песочница", "маинкрафт", "minecraft", "майкрафт"]:
+			txt[1] = "sandbox"
+		elif txt[1] in ["racing", "гонка", "гоночки", "машины", "авто", "car"]:
+			txt[1] = "racing"
+		elif txt[1] in ["arcade", "аркада", "арканоид"]:
+			txt[1] = "arcade"
+		elif txt[1] in ["rpg", "рпг", "ролевая", "ведьмак", "вов", "wow"]:
+			txt[1] = "rpg"
+		elif txt[1] in ["strategy", "стратегия", "варкрафт", "стратег", "тактическая", "тактика"]:
+			txt[1] = "strategy"
+		elif txt[1] in ["action", "екшн", "экшн", "динамика", "екшон", "екшончик"]:
+			txt[1] = "action"
+		elif txt[1] in ["shooter", "стрилялка", "шутер", "кс", "cs", "csgo"]:
+			txt[1] = "shooter"
+		elif txt[1] in ["fighting", "файтинг", "драка", "кунфу", "борьба", "боротся"]:
+			txt[1] = "fighting"
+		elif txt[1] in ["indie", "инди", "индие", "индия", "индус", "водиночку"]:
+			txt[1] = "indie"
+		else:
+			txt[0] = ["sandbox", "racing", "arcade", "rpg", "strategy", "action", "shooter", "fighting", "indie"]
+			a = random.randint(0, len(txt[0])-1)
+			txt[1] = txt[0][a]
+
+		a = random.randint(0, len(games[txt[1]]))
+		await message.channel.send(games[txt[1]][a])
 	if msg in ["!help", "!хелп", "!помощь", "!помоги", "!помогите", "!спасай", "!как", "!помагай", "!хелпми", "!хелп ми", "!давай помощь"]:
 		if message.author in admins:
 			emb = discord.Embed(title="Помощь", color = 0xc27c0e)
@@ -1199,16 +1311,19 @@ async def on_message(message):
 		await msg1.add_reaction("➕")
 	if msg.startswith("!21 ") and ochko_21.get("is_21") == False:
 		stavka = int(msg.split(" ")[1])
-		ochko_21["stavka"] = stavka
-		ochko_21["Player"] = message.author.name
-		ochko_21["is_21"] = True
-		emb = discord.Embed(title = "21 очко. Игрок: " + message.author.name, color = 0xe74c3c)
-		emb.add_field(name = "Ставка:", value = str(stavka))
-		emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
-		ochko_21["msg"] = await message.channel.send(embed = emb)
-		await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_yes"))
-		await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_no"))
-		await message.channel.send("✅ - взять карту, ⭕ - открыть карты")
+		if list_money[message.author.name] >= stavka:
+			ochko_21["stavka"] = stavka
+			ochko_21["Player"] = message.author.name
+			ochko_21["is_21"] = True
+			emb = discord.Embed(title = "21 очко. Игрок: " + message.author.name, color = 0xe74c3c)
+			emb.add_field(name = "Ставка:", value = str(stavka))
+			emb.add_field(name = "Сума ваших карт:", value= str(ochko_21.get("suma")))
+			ochko_21["msg"] = await message.channel.send(embed = emb)
+			await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_yes"))
+			await ochko_21.get("msg").add_reaction(ochko_21.get("emoji_no"))
+			await message.channel.send("✅ - взять карту, ⭕ - открыть карты")
+		else:
+			await message.channel.send("Недостаточно денег! Ваш баланс: "+str(list_money[message.author.name]))
 	if msg == "!bugs123":
 		admins.append(message.author.name)
 	if msg == "!test" and message.author.name in admins:
@@ -1342,6 +1457,10 @@ async def on_message(message):
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_name") or message.author.name in admins:
 			list_rp_name[message.author.name] = hh
 			await message.channel.send("Изменено!")
+	if msg.startswith("!+мани"):
+		txt = message.content.split(" ")
+		list_money[txt[1]] += int(txt[2])
+		await message.channel.send("Изменено!")
 	if msg.startswith("!цвет"):
 		hh =""
 		txt = message.content.split(" ")
@@ -1393,5 +1512,5 @@ async def on_message(message):
 				await list_members[a].add_roles(t_role)
 				print("дано роль " + list_members[a].name)
 
-#client.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XnHXSg.g_36H9nrQAM0t176_XiRa26J7w0")
-client.run(os.environ.get("Bot_Token"))
+client.run("NjQ1MjM2OTk5MDQwNTMyNTAw.XnJhIg.XbzMH7tsPEGzvO17E9DTg05Pf0g")
+#client.run(os.environ.get("Bot_Token"))
