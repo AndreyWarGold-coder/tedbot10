@@ -1340,7 +1340,7 @@ async def on_message(message):
 		colvo = txt[2]
 		txt = txt[1]
 		list_money[txt] += int(colvo)
-	if msg.startswith("!мани") and list_money[message.author.name] >= int(msg.split(" ")[2]) and int(msg.split(" ")[2]) > 0:
+	if msg.startswith("!дать") and list_money[message.author.name] >= int(msg.split(" ")[2]) and int(msg.split(" ")[2]) > 0:
 		txt = msg.split(" ")
 		colvo = txt[2]
 		txt = txt[1]
@@ -1470,10 +1470,6 @@ async def on_message(message):
 		if list_level.get(message.author.name) >= need_lvl.get("For_edit_name") or message.author.name in admins:
 			list_rp_name[message.author.name] = hh
 			await message.channel.send("Изменено!")
-	if msg.startswith("!+мани"):
-		txt = message.content.split(" ")
-		list_money[txt[1]] += int(txt[2])
-		await message.channel.send("Изменено!")
 	if msg.startswith("!цвет"):
 		hh =""
 		txt = message.content.split(" ")
