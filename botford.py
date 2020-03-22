@@ -206,7 +206,7 @@ async def on_raw_reaction_remove(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(17, 22)
+			a_bot = random.randint(16, 24)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
@@ -226,6 +226,18 @@ async def on_raw_reaction_remove(payload):
 				            "is_21": False,
 				            "suma": 0,
 				            "stavka": 0}
+			if a_bot < 22 and a_bot > ochko_21.get("suma"):
+				list_money[user.name] -= ochko_21.get("stavka")
+				await channel.send("Вы проиграли! У бота было: " + str(a_bot) + " Вы потеряли " + str(ochko_21.get("stavka")))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+
+
 
 
 
@@ -268,7 +280,7 @@ async def on_raw_reaction_add(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(17, 22)
+			a_bot = random.randint(16, 24)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
@@ -281,6 +293,16 @@ async def on_raw_reaction_add(payload):
 				            "stavka": 0}
 			if a_bot < 22 and a_bot == ochko_21.get("suma"):
 				await channel.send("Ничия! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")))
+				ochko_21 = {"Player" : "",
+				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
+				            "emoji_yes": "✅",
+				            "emoji_no": "⭕",
+				            "is_21": False,
+				            "suma": 0,
+				            "stavka": 0}
+			if a_bot < 22 and a_bot > ochko_21.get("suma"):
+				list_money[user.name] -= ochko_21.get("stavka")
+				await channel.send("Вы проиграли! У бота было: " + str(a_bot) + " Вы потеряли " + str(ochko_21.get("stavka")))
 				ochko_21 = {"Player" : "",
 				            "Karts": [1,1,1,1,2,2,2,2,3,3,3,3,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11],
 				            "emoji_yes": "✅",
