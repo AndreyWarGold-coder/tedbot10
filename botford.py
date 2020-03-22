@@ -206,7 +206,7 @@ async def on_raw_reaction_remove(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(18, 23)
+			a_bot = random.randint(17, 22)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
@@ -268,7 +268,7 @@ async def on_raw_reaction_add(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(18, 23)
+			a_bot = random.randint(17, 22)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
