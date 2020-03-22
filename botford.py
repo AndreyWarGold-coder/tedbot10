@@ -1336,12 +1336,12 @@ async def on_message(message):
 	if message.content.startswith('hello'):
 		await message.channel.send('Hello!')
 	if msg.startswith("!+мани") and message.author.name in admins:
-		txt = txt.split(" ")
+		txt = msg.split(" ")
 		colvo = txt[2]
 		txt = txt[1]
 		list_money[txt] += int(colvo)
 	if msg.startswith("!мани") and list_money[message.author.name] >= int(msg.split(" ")[2]) and int(msg.split(" ")[2]) > 0:
-		txt = txt.split(" ")
+		txt = msg.split(" ")
 		colvo = txt[2]
 		txt = txt[1]
 		list_money[txt] += int(colvo)
