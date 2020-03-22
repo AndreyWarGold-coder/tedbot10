@@ -206,7 +206,7 @@ async def on_raw_reaction_remove(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(15, 25)
+			a_bot = random.randint(18, 23)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
@@ -268,7 +268,7 @@ async def on_raw_reaction_add(payload):
 		return
 	if ochko_21.get("is_21") == True and user.name == ochko_21.get("Player"):
 		if emoji == ochko_21.get("emoji_no"):
-			a_bot = random.randint(15, 25)
+			a_bot = random.randint(18, 23)
 			if a_bot > 21 or ochko_21.get("suma") > a_bot :
 				list_money[user.name] += ochko_21.get("stavka")
 				await channel.send("Вы выиграли! У бота было: " + str(a_bot) + " Вы получили " + str(ochko_21.get("stavka")*2))
@@ -766,7 +766,7 @@ async def on_message(message):
 
 	if message.channel == channel_for_rp:
 		return
-	if msg.startswith("!game "):
+	if msg.startswith("!game ") or msg.startswith("!игра "):
 		txt = msg.split(" ")
 		if txt[1] in ["sandbox", "сандбокс", "песочница", "маинкрафт", "minecraft", "майкрафт"]:
 			txt[1] = "sandbox"
@@ -1309,7 +1309,7 @@ async def on_message(message):
 		save = True
 		msg1 = await message.channel.send(embed = emb)
 		await msg1.add_reaction("➕")
-	if msg.startswith("!21 ") and ochko_21.get("is_21") == False:
+	if msg.startswith("!21 ") and ochko_21.get("is_21") == False and int(msg.split(" ")[1]) > 0:
 		stavka = int(msg.split(" ")[1])
 		if list_money[message.author.name] >= stavka:
 			ochko_21["stavka"] = stavka
@@ -1335,6 +1335,19 @@ async def on_message(message):
 			await message.channel.send("Test ON") 
 	if message.content.startswith('hello'):
 		await message.channel.send('Hello!')
+	if msg.startswith("!+мани") and message.author.name in admins:
+		txt = txt.split(" ")
+		colvo = txt[2]
+		txt = txt[1]
+		list_money[txt] += int(colvo)
+	if msg.startswith("!мани") and list_money[message.author.name] >= int(msg.split(" ")[2]) and int(msg.split(" ")[2]) > 0:
+		txt = txt.split(" ")
+		colvo = txt[2]
+		txt = txt[1]
+		list_money[txt] += int(colvo)
+		list_money[message.author.name] -= int(colvo)
+		await message.channel.send("Передано " + colvo + "$ " + txt)
+
 	if msg.startswith("!+роль") and message.author.name in admins:
 		txt = msg.split(" ")
 		for i in range(len(txt)-1):
